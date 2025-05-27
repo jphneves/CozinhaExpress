@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
 // URL do seu backend - SUBSTITUA PELO SEU IP LOCAL ou 10.0.2.2 para emulador Android
-const BACKEND_URL = 'http://cozinhaexpress-backend-production.up.railway.app'; // Ex: 'http://192.168.1.5:3000' ou 'http://10.0.2.2:3000'
+const BACKEND_URL = 'https://cozinhaexpress-backend-production.up.railway.app'; // Ex: 'http://192.168.1.5:3000' ou 'http://10.0.2.2:3000'
 const TOKEN_KEY = '@CozinhaExpress:AuthToken'; // Chave para salvar o token
 
 interface User {

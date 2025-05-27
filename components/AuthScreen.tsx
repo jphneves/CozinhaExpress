@@ -14,7 +14,7 @@ const schema = z.object({
 });
 
 // URL do seu backend - SUBSTITUA PELO SEU IP LOCAL ou 10.0.2.2 para emulador Android
-const BACKEND_URL = 'http://cozinhaexpress-backend-production.up.railway.app'; 
+const BACKEND_URL = 'https://cozinhaexpress-backend-production.up.railway.app'; 
 
 async function cadastrarUsuarioApi(email: string, senha: string) {
   const resposta = await fetch(`${BACKEND_URL}/usuarios`, {
