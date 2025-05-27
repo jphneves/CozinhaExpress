@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Colors } from '../../constants/Colors';
+import { useColorScheme } from '../../hooks/useColorScheme';
 
 export default function TelaReceitas() {
   const [receitas, setReceitas] = useState<any[]>([]);
@@ -8,6 +10,8 @@ export default function TelaReceitas() {
   const [receitaSelecionada, setReceitaSelecionada] = useState<any | null>(null);
   const [busca, setBusca] = useState('');
   const [buscando, setBuscando] = useState(false);
+  const colorScheme = useColorScheme() ?? 'light';
+  const theme = Colors[colorScheme];
 
   useEffect(() => {
     fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
@@ -74,27 +78,31 @@ export default function TelaReceitas() {
 
   if (carregando) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.titulo}>CozinhaExpress</Text>
-        <Text>Carregando...</Text>
+      <View style={[styles.container, { backgroundColor: theme.background }]}>
+        <Text style={[styles.titulo, { color: theme.tint }]}>CozinhaExpress</Text>
+        <Text style={{ color: theme.text }}>Carregando...</Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.titulo}>CozinhaExpress</Text>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <Text style={[styles.titulo, { color: theme.tint }]}>CozinhaExpress</Text>
       <View style={styles.buscaContainer}>
         <TextInput
-          style={styles.inputBusca}
+          style={[
+            styles.inputBusca,
+            { borderColor: theme.inputBorder, backgroundColor: theme.card, color: theme.text },
+          ]}
           placeholder="Buscar por ingrediente"
+          placeholderTextColor={theme.text + '99'}
           value={busca}
           onChangeText={setBusca}
           onSubmitEditing={buscarPorIngrediente}
           returnKeyType="search"
         />
-        <Pressable style={styles.btnBusca} onPress={buscarPorIngrediente}>
-          <Text style={styles.btnBuscaTxt}>Buscar</Text>
+        <Pressable style={[styles.btnBusca, { backgroundColor: theme.button }]} onPress={buscarPorIngrediente}>
+          <Text style={[styles.btnBuscaTxt, { color: theme.buttonText }]}>Buscar</Text>
         </Pressable>
       </View>
       {buscando && (
@@ -103,19 +111,19 @@ export default function TelaReceitas() {
           setBusca('');
           buscarReceitasPadrao();
         }}>
-          <Text style={styles.limparBusca}>Limpar busca</Text>
+          <Text style={[styles.limparBusca, { color: theme.icon }]}>Limpar busca</Text>
         </Pressable>
       )}
       <FlatList
         data={receitas}
         keyExtractor={item => item.idMeal}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.item} onPress={() => abrirDetalhes(item)}>
+          <TouchableOpacity style={[styles.item, { backgroundColor: theme.card, shadowColor: theme.shadow }]} onPress={() => abrirDetalhes(item)}>
             <Image source={{ uri: item.strMealThumb }} style={styles.imagem} />
             <View style={styles.info}>
-              <Text style={styles.nome}>{item.strMeal}</Text>
-              <Text style={styles.categoria}>{item.strCategory} | {item.strArea}</Text>
-              <Text style={styles.descricao} numberOfLines={3}>{item.strInstructions}</Text>
+              <Text style={[styles.nome, { color: theme.tint }]}>{item.strMeal}</Text>
+              <Text style={[styles.categoria, { color: theme.icon }]}>{item.strCategory} | {item.strArea}</Text>
+              <Text style={[styles.descricao, { color: theme.text }]} numberOfLines={3}>{item.strInstructions}</Text>
             </View>
           </TouchableOpacity>
         )}
@@ -127,22 +135,22 @@ export default function TelaReceitas() {
         onRequestClose={fecharModal}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
+          <View style={[styles.modalContent, { backgroundColor: theme.background, shadowColor: theme.shadow }]}>
             <ScrollView>
               {receitaSelecionada && (
                 <>
                   <Image source={{ uri: receitaSelecionada.strMealThumb }} style={styles.imagemModal} />
-                  <Text style={styles.nomeModal}>{receitaSelecionada.strMeal}</Text>
-                  <Text style={styles.categoriaModal}>{receitaSelecionada.strCategory} | {receitaSelecionada.strArea}</Text>
-                  <Text style={styles.tituloSecao}>Instruções</Text>
-                  <Text style={styles.instrucoes}>{receitaSelecionada.strInstructions}</Text>
-                  <Text style={styles.tituloSecao}>Ingredientes</Text>
+                  <Text style={[styles.nomeModal, { color: theme.tint }]}>{receitaSelecionada.strMeal}</Text>
+                  <Text style={[styles.categoriaModal, { color: theme.icon }]}>{receitaSelecionada.strCategory} | {receitaSelecionada.strArea}</Text>
+                  <Text style={[styles.tituloSecao, { color: theme.text }]}>Instruções</Text>
+                  <Text style={[styles.instrucoes, { color: theme.text }]}>{receitaSelecionada.strInstructions}</Text>
+                  <Text style={[styles.tituloSecao, { color: theme.text }]}>Ingredientes</Text>
                   {Array.from({ length: 20 }).map((_, i) => {
                     const ingrediente = receitaSelecionada[`strIngredient${i+1}`];
                     const medida = receitaSelecionada[`strMeasure${i+1}`];
                     if (ingrediente && ingrediente.trim()) {
                       return (
-                        <Text key={i} style={styles.ingrediente}>{`- ${ingrediente} ${medida ? `(${medida})` : ''}`}</Text>
+                        <Text key={i} style={[styles.ingrediente, { color: theme.text }]}>{`- ${ingrediente} ${medida ? `(${medida})` : ''}`}</Text>
                       );
                     }
                     return null;
@@ -150,8 +158,8 @@ export default function TelaReceitas() {
                 </>
               )}
             </ScrollView>
-            <Pressable style={styles.fecharBtn} onPress={fecharModal}>
-              <Text style={styles.fecharBtnTxt}>Fechar</Text>
+            <Pressable style={[styles.fecharBtn, { backgroundColor: theme.button }]} onPress={fecharModal}>
+              <Text style={[styles.fecharBtnTxt, { color: theme.buttonText }]}>Fechar</Text>
             </Pressable>
           </View>
         </View>
@@ -163,7 +171,6 @@ export default function TelaReceitas() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     padding: 16,
   },
   titulo: {
