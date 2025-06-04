@@ -14,47 +14,61 @@ export default function UsuarioScreen() {
   const changePassword = () => {
     Alert.prompt(
       'Alterar Senha',
-      'Digite sua senha atual e a nova senha (separadas por vírgula):',
+      'Digite sua senha atual:',
       [
         {
           text: 'Cancelar',
           style: 'cancel',
         },
         {
-          text: 'Confirmar',
-          onPress: async (input) => {
-            if (!input) {
-              Alert.alert('Erro', 'Por favor, insira ambas as senhas.');
+          text: 'Próximo',
+          onPress: (currentPassword) => {
+            if (!currentPassword) {
+              Alert.alert('Erro', 'Por favor, insira sua senha atual.');
               return;
             }
-            const [currentPassword, newPassword] = input.split(',');
-            if (!currentPassword || !newPassword) {
-              Alert.alert('Erro', 'Por favor, insira ambas as senhas.');
-              return;
-            }
-            try {
-              const response = await fetch(`${BACKEND_URL}/api/user/change-password`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: user?.email, currentPassword, newPassword }),
-              });
-              const result = await response.json();
-              if (response.ok) {
-                Alert.alert('Sucesso', 'Senha alterada com sucesso!');
-              } else {
-                Alert.alert('Erro', result.error || 'Não foi possível alterar a senha.');
-              }
-            } catch (error) {
-              Alert.alert('Erro', 'Ocorreu um erro ao tentar alterar a senha.');
-              console.error(error);
-            }
+            Alert.prompt(
+              'Alterar Senha',
+              'Digite sua nova senha:',
+              [
+                {
+                  text: 'Cancelar',
+                  style: 'cancel',
+                },
+                {
+                  text: 'Confirmar',
+                  onPress: async (newPassword) => {
+                    if (!newPassword) {
+                      Alert.alert('Erro', 'Por favor, insira sua nova senha.');
+                      return;
+                    }
+                    try {
+                      const response = await fetch(`${BACKEND_URL}/api/user/change-password`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: user?.email, currentPassword, newPassword }),
+                      });
+                      const result = await response.json();
+                      if (response.ok) {
+                        Alert.alert('Sucesso', 'Senha alterada com sucesso!');
+                      } else {
+                        Alert.alert('Erro', result.error || 'Não foi possível alterar a senha.');
+                      }
+                    } catch (error) {
+                      Alert.alert('Erro', 'Ocorreu um erro ao tentar alterar a senha.');
+                      console.error(error);
+                    }
+                  },
+                  style: 'default',
+                },
+              ],
+              'secure-text'
+            );
           },
           style: 'default',
         },
       ],
-      'plain-text',
-      '',
-      'Senha atual, Nova senha'
+      'secure-text'
     );
   };
 
