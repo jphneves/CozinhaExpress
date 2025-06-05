@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Image, Modal, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, Image, Modal, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Colors } from '../../constants/Colors';
 import { useColorScheme } from '../../hooks/useColorScheme';
 import { styles } from '../../styles/IndexStyles';
@@ -89,7 +89,10 @@ export default function TelaReceitas() {
     return (
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         <Text style={[styles.titulo, { color: theme.tint }]}>CozinhaExpress</Text>
-        <Text style={{ color: theme.text }}>Carregando...</Text>
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={theme.tint} />
+          <Text style={[styles.loadingText, { color: theme.text }]}>Carregando receitas...</Text>
+        </View>
       </View>
     );
   }

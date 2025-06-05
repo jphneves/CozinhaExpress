@@ -1,0 +1,8 @@
+{
+  "build": {
+    "release": {
+      "platform": "ios",
+      "distribution": "internal"
+    }
+  }
+} 

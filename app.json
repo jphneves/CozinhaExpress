@@ -44,6 +44,12 @@
         "projectId": "ec38e58e-3ff7-4d93-8fb9-69108256442f"
       }
     },
-    "owner": "lemoxsy"
+    "owner": "lemoxsy",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/ec38e58e-3ff7-4d93-8fb9-69108256442f"
+    }
   }
 }

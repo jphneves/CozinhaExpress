@@ -124,4 +124,15 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 8,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  loadingText: {
+    marginTop: 16,
+    fontSize: 16,
+    fontWeight: '500',
+  },
 }); 
