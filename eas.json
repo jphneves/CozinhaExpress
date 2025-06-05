@@ -1,8 +1,17 @@
 {
   "build": {
-    "release": {
+    "release-ios": {
       "platform": "ios",
       "distribution": "internal"
+    },
+    "release-android": {
+      "platform": "android",
+      "distribution": "internal"
+    }
+  },
+  "update": {
+    "release": {
+      "channel": "main"
     }
   }
 } 

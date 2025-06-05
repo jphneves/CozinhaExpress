@@ -45,16 +45,13 @@ Este projeto foi desenvolvido para estudos e prática de desenvolvimento mobile 
 
 ---
 
-## Download e Teste no Expo Go
+## Teste no Expo Go
 
 O app CozinhaExpress está disponível para teste via Expo Go. Siga as instruções abaixo para acessá-lo:
 
-- **Link para o Projeto no Expo**: [Clique aqui para acessar o app no Expo Go](https://expo.dev/@seuusuario/cozinhaexpress) (link a ser atualizado após a publicação).
-- **QR Code para Download**: Escaneie o QR Code abaixo com o app Expo Go no seu dispositivo iOS ou Android para testar o app diretamente.
+- **QR Code**: Escaneie o QR Code abaixo com o app Expo Go no seu dispositivo iOS ou Android para testar o app diretamente.
 
 ![QR Code para CozinhaExpress](assets/images/qrcode.jpg)
-
-**Nota**: O QR Code será atualizado após a publicação do app no Expo. Certifique-se de ter o app **Expo Go** instalado no seu dispositivo. Você pode baixá-lo na [App Store (iOS)](https://apps.apple.com/app/expo-go/id982107779) ou [Google Play (Android)](https://play.google.com/store/apps/details?id=host.exp.exponent).
 
 ---
 
@@ -70,13 +67,12 @@ O app CozinhaExpress está disponível para teste via Expo Go. Siga as instruç�
 - **Busca de Receitas**: Liste receitas e busque por ingredientes específicos usando a API do TheMealDB.
 - **Detalhes de Receitas**: Visualize instruções completas e lista de ingredientes de cada receita.
 - **Gerenciamento de Conta**: Altere sua senha ou exclua sua conta diretamente pelo app.
-- **Tema Claro/Escuro**: Interface adaptável ao tema do dispositivo (claro ou escuro).
 
 ## Tecnologias Utilizadas
 
 - **React Native** com **Expo**: Framework para desenvolvimento mobile multiplataforma.
 - **Expo Router**: Sistema de navegação baseado em arquivos.
-- **Backend Personalizado**: Integração com API RESTful hospedada em `https://cozinhaexpress-backend-production.up.railway.app` para autenticação e gerenciamento de usuários.
+- **Backend Personalizado**: Integração com API RESTful hospedada em RailWay para autenticação e gerenciamento de usuários.
 - **API TheMealDB**: Fonte de dados para receitas e ingredientes.
 
 ## Pré-requisitos
@@ -131,14 +127,3 @@ O app está publicado no Expo Go para testes. Para acessar:
 ## Contribuição
 
 Se desejar contribuir para o projeto, por favor, abra uma issue ou envie um pull request com suas sugestões ou correções.
-
-## Licença
-
-Este projeto é licenciado sob a [MIT License](LICENSE) (ou especifique outra licença, se aplicável).
-
-## Contato
-
-Para dúvidas ou suporte, entre em contato com o desenvolvedor pelo e-mail ou GitHub (a ser preenchido pelo desenvolvedor).
-
----
-**Última Atualização**: (Data a ser preenchida pelo desenvolvedor.)
