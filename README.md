@@ -85,7 +85,7 @@ O app CozinhaExpress está disponível para teste via Expo Go. Siga as instruç�
 
 1. **Clone o Repositório**:
    ```bash
-   git clone <URL_DO_REPOSITORIO>
+   git clone (https://github.com/jphneves/CozinhaExpress)
    cd cozinhaexpress
    ```
 
