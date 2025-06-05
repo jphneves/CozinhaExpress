@@ -1,42 +1,49 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Image, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Modal, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Colors } from '../../constants/Colors';
 import { useColorScheme } from '../../hooks/useColorScheme';
+import { styles } from '../../styles/IndexStyles';
 
+// Componente principal para exibir a lista de receitas
 export default function TelaReceitas() {
-  const [receitas, setReceitas] = useState<any[]>([]);
-  const [carregando, setCarregando] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [receitaSelecionada, setReceitaSelecionada] = useState<any | null>(null);
-  const [busca, setBusca] = useState('');
-  const [buscando, setBuscando] = useState(false);
-  const colorScheme = useColorScheme() ?? 'light';
-  const theme = Colors[colorScheme];
+  // Estados para gerenciar a lista de receitas, carregamento, modal de detalhes e busca
+  const [receitas, setReceitas] = useState<any[]>([]); // Armazena a lista de receitas obtidas da API
+  const [carregando, setCarregando] = useState(true); // Indica se os dados estão sendo carregados
+  const [modalVisible, setModalVisible] = useState(false); // Controla a visibilidade do modal de detalhes da receita
+  const [receitaSelecionada, setReceitaSelecionada] = useState<any | null>(null); // Armazena a receita selecionada para exibir no modal
+  const [busca, setBusca] = useState(''); // Armazena o texto de busca por ingrediente
+  const [buscando, setBuscando] = useState(false); // Indica se uma busca por ingrediente está ativa
+  const colorScheme = useColorScheme() ?? 'light'; // Obtém o esquema de cores (claro ou escuro) do dispositivo
+  const theme = Colors[colorScheme]; // Define o tema de cores com base no esquema
 
+  // Efeito para carregar receitas padrão ao iniciar o componente
   useEffect(() => {
     fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
       .then(res => res.json())
       .then(data => {
-        setReceitas(data.meals || []);
-        setCarregando(false);
+        setReceitas(data.meals || []); // Atualiza o estado com a lista de receitas
+        setCarregando(false); // Finaliza o estado de carregamento
       })
-      .catch(() => setCarregando(false));
+      .catch(() => setCarregando(false)); // Em caso de erro, finaliza o carregamento
   }, []);
 
+  // Função para abrir o modal com os detalhes de uma receita selecionada
   const abrirDetalhes = (receita: any) => {
-    setReceitaSelecionada(receita);
-    setModalVisible(true);
+    setReceitaSelecionada(receita); // Define a receita selecionada
+    setModalVisible(true); // Mostra o modal
   };
 
+  // Função para fechar o modal de detalhes
   const fecharModal = () => {
-    setModalVisible(false);
-    setReceitaSelecionada(null);
+    setModalVisible(false); // Esconde o modal
+    setReceitaSelecionada(null); // Limpa a receita selecionada
   };
 
+  // Função para buscar receitas por ingrediente
   const buscarPorIngrediente = () => {
-    if (!busca.trim()) return;
-    setCarregando(true);
-    setBuscando(true);
+    if (!busca.trim()) return; // Se o campo de busca estiver vazio, não faz nada
+    setCarregando(true); // Inicia o estado de carregamento
+    setBuscando(true); // Marca que uma busca está ativa
     fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${encodeURIComponent(busca)}`)
       .then(res => res.json())
       .then(data => {
@@ -49,33 +56,35 @@ export default function TelaReceitas() {
                 .then(d => d.meals[0])
             )
           ).then(receitasDetalhadas => {
-            setReceitas(receitasDetalhadas);
-            setCarregando(false);
+            setReceitas(receitasDetalhadas); // Atualiza a lista com as receitas detalhadas
+            setCarregando(false); // Finaliza o carregamento
           });
         } else {
-          setReceitas([]);
-          setCarregando(false);
+          setReceitas([]); // Se não houver resultados, limpa a lista
+          setCarregando(false); // Finaliza o carregamento
         }
       })
-      .catch(() => setCarregando(false));
+      .catch(() => setCarregando(false)); // Em caso de erro, finaliza o carregamento
   };
 
   // Função para buscar receitas padrão (todas)
   const buscarReceitasPadrao = () => {
-    setCarregando(true);
+    setCarregando(true); // Inicia o estado de carregamento
     fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
       .then(res => res.json())
       .then(data => {
-        setReceitas(data.meals || []);
-        setCarregando(false);
+        setReceitas(data.meals || []); // Atualiza a lista com as receitas padrão
+        setCarregando(false); // Finaliza o carregamento
       })
-      .catch(() => setCarregando(false));
+      .catch(() => setCarregando(false)); // Em caso de erro, finaliza o carregamento
   };
 
+  // Efeito para carregar receitas padrão ao iniciar o componente (redundante com o primeiro useEffect)
   useEffect(() => {
-    buscarReceitasPadrao();
+    buscarReceitasPadrao(); // Chama a função para buscar receitas padrão
   }, []);
 
+  // Exibe uma tela de carregamento enquanto os dados estão sendo buscados
   if (carregando) {
     return (
       <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -85,6 +94,7 @@ export default function TelaReceitas() {
     );
   }
 
+  // Renderiza a interface principal com a lista de receitas e o campo de busca
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <Text style={[styles.titulo, { color: theme.tint }]}>CozinhaExpress</Text>
@@ -107,16 +117,16 @@ export default function TelaReceitas() {
       </View>
       {buscando && (
         <Pressable onPress={() => {
-          setBuscando(false);
-          setBusca('');
-          buscarReceitasPadrao();
+          setBuscando(false); // Desativa o estado de busca
+          setBusca(''); // Limpa o campo de busca
+          buscarReceitasPadrao(); // Recarrega as receitas padrão
         }}>
           <Text style={[styles.limparBusca, { color: theme.icon }]}>Limpar busca</Text>
         </Pressable>
       )}
       <FlatList
-        data={receitas}
-        keyExtractor={item => item.idMeal}
+        data={receitas} // Lista de receitas a ser exibida
+        keyExtractor={item => item.idMeal} // Chave única para cada item da lista
         renderItem={({ item }) => (
           <TouchableOpacity style={[styles.item, { backgroundColor: theme.card, shadowColor: theme.shadow }]} onPress={() => abrirDetalhes(item)}>
             <Image source={{ uri: item.strMealThumb }} style={styles.imagem} />
@@ -129,10 +139,10 @@ export default function TelaReceitas() {
         )}
       />
       <Modal
-        visible={modalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={fecharModal}
+        visible={modalVisible} // Controla a visibilidade do modal
+        animationType="slide" // Tipo de animação ao abrir o modal
+        transparent={true} // Fundo transparente para o modal
+        onRequestClose={fecharModal} // Fecha o modal ao clicar no botão de voltar (Android)
       >
         <View style={styles.modalOverlay}>
           <View style={[styles.modalContent, { backgroundColor: theme.background, shadowColor: theme.shadow }]}>
@@ -167,141 +177,3 @@ export default function TelaReceitas() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  titulo: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  item: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    padding: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-    gap: 12,
-    borderRadius: 8,
-    backgroundColor: '#fafafa',
-    marginBottom: 8,
-  },
-  imagem: {
-    width: 80,
-    height: 80,
-    borderRadius: 8,
-    backgroundColor: '#eee',
-  },
-  info: {
-    flex: 1,
-  },
-  nome: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  categoria: {
-    fontSize: 14,
-    color: '#888',
-    marginBottom: 4,
-  },
-  descricao: {
-    fontSize: 14,
-    color: '#444',
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.4)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
-    width: '90%',
-    maxHeight: '85%',
-    elevation: 5,
-  },
-  imagemModal: {
-    width: '100%',
-    height: 180,
-    borderRadius: 8,
-    marginBottom: 12,
-  },
-  nomeModal: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 4,
-    textAlign: 'center',
-  },
-  categoriaModal: {
-    fontSize: 16,
-    color: '#888',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  tituloSecao: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 12,
-    marginBottom: 4,
-  },
-  instrucoes: {
-    fontSize: 15,
-    color: '#444',
-    marginBottom: 8,
-  },
-  ingrediente: {
-    fontSize: 15,
-    color: '#333',
-    marginLeft: 8,
-  },
-  fecharBtn: {
-    marginTop: 16,
-    backgroundColor: '#e74c3c',
-    padding: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  fecharBtnTxt: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  buscaContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-    gap: 8,
-  },
-  inputBusca: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    padding: 8,
-    fontSize: 16,
-    backgroundColor: '#fff',
-  },
-  btnBusca: {
-    backgroundColor: '#27ae60',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-  },
-  btnBuscaTxt: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  limparBusca: {
-    color: '#e74c3c',
-    marginBottom: 8,
-    textAlign: 'right',
-    textDecorationLine: 'underline',
-  },
-});

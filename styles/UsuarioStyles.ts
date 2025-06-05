@@ -1,0 +1,72 @@
+import { StyleSheet } from 'react-native';
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  titulo: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    letterSpacing: 1,
+  },
+  email: {
+    fontSize: 18,
+    marginBottom: 32,
+    textAlign: 'center',
+  },
+  btnLogout: {
+    paddingVertical: 16,
+    paddingHorizontal: 36,
+    borderRadius: 12,
+    marginTop: 10,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    elevation: 3,
+    alignItems: 'center',
+    width: '80%',
+  },
+  btnLogoutTxt: {
+    fontWeight: 'bold',
+    fontSize: 19,
+    letterSpacing: 0.5,
+  },
+  btnAction: {
+    paddingVertical: 16,
+    paddingHorizontal: 36,
+    borderRadius: 12,
+    marginTop: 20,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    elevation: 3,
+    alignItems: 'center',
+    width: '80%',
+  },
+  btnActionTxt: {
+    fontWeight: 'bold',
+    fontSize: 19,
+    letterSpacing: 0.5,
+  },
+  btnDelete: {
+    paddingVertical: 16,
+    paddingHorizontal: 36,
+    borderRadius: 12,
+    marginTop: 20,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    elevation: 3,
+    alignItems: 'center',
+    width: '80%',
+  },
+  btnDeleteTxt: {
+    fontWeight: 'bold',
+    fontSize: 19,
+    letterSpacing: 0.5,
+  },
+}); 

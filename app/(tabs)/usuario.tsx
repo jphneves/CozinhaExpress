@@ -1,16 +1,20 @@
 import React from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Pressable, Text, View } from 'react-native';
 import { Colors } from '../../constants/Colors';
 import { useAuth } from '../../hooks/useAuth';
 import { useColorScheme } from '../../hooks/useColorScheme';
+import { styles } from '../../styles/UsuarioStyles';
 
+// URL do backend para chamadas de API
 const BACKEND_URL = 'https://cozinhaexpress-backend-production.up.railway.app';
 
+// Componente principal para exibir opções do usuário
 export default function UsuarioScreen() {
-  const { logout, user } = useAuth();
-  const colorScheme = useColorScheme() ?? 'light';
-  const theme = Colors[colorScheme];
+  const { logout, user } = useAuth(); // Obtém funções e dados de autenticação do hook useAuth
+  const colorScheme = useColorScheme() ?? 'light'; // Obtém o esquema de cores (claro ou escuro) do dispositivo
+  const theme = Colors[colorScheme]; // Define o tema de cores com base no esquema
 
+  // Função para alterar a senha do usuário
   const changePassword = () => {
     Alert.prompt(
       'Alterar Senha',
@@ -72,6 +76,7 @@ export default function UsuarioScreen() {
     );
   };
 
+  // Função para excluir a conta do usuário
   const deleteAccount = () => {
     Alert.prompt(
       'Excluir Conta',
@@ -114,6 +119,7 @@ export default function UsuarioScreen() {
     );
   };
 
+  // Renderiza a interface com opções do usuário
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <Text style={[styles.titulo, { color: theme.tint }]}>Opções do Usuário</Text>
@@ -129,75 +135,4 @@ export default function UsuarioScreen() {
       </Pressable>
     </View>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 24,
-  },
-  titulo: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    letterSpacing: 1,
-  },
-  email: {
-    fontSize: 18,
-    marginBottom: 32,
-    textAlign: 'center',
-  },
-  btnLogout: {
-    paddingVertical: 16,
-    paddingHorizontal: 36,
-    borderRadius: 12,
-    marginTop: 10,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.12,
-    shadowRadius: 6,
-    elevation: 3,
-    alignItems: 'center',
-    width: '80%',
-  },
-  btnLogoutTxt: {
-    fontWeight: 'bold',
-    fontSize: 19,
-    letterSpacing: 0.5,
-  },
-  btnAction: {
-    paddingVertical: 16,
-    paddingHorizontal: 36,
-    borderRadius: 12,
-    marginTop: 20,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.12,
-    shadowRadius: 6,
-    elevation: 3,
-    alignItems: 'center',
-    width: '80%',
-  },
-  btnActionTxt: {
-    fontWeight: 'bold',
-    fontSize: 19,
-    letterSpacing: 0.5,
-  },
-  btnDelete: {
-    paddingVertical: 16,
-    paddingHorizontal: 36,
-    borderRadius: 12,
-    marginTop: 20,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.12,
-    shadowRadius: 6,
-    elevation: 3,
-    alignItems: 'center',
-    width: '80%',
-  },
-  btnDeleteTxt: {
-    fontWeight: 'bold',
-    fontSize: 19,
-    letterSpacing: 0.5,
-  },
-}); 
+} 

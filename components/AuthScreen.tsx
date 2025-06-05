@@ -1,11 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import 'cross-fetch/polyfill';
 import { useState } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, TextInput, View } from 'react-native';
 import { z } from 'zod';
 import { Colors } from '../constants/Colors';
 import { useAuth } from '../hooks/useAuth';
 import { useColorScheme } from '../hooks/useColorScheme';
+import { styles } from '../styles/AuthScreenStyles';
 
 const schema = z.object({
   email: z.string().email('E-mail inválido'),
@@ -153,104 +154,4 @@ export default function AuthScreen() {
       </Pressable>
     </View>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 24,
-  },
-  headerBox: {
-    alignItems: 'center',
-    position: 'absolute',
-    top: 36,
-    left: 0,
-    right: 0,
-    zIndex: 10,
-    paddingHorizontal: 24,
-  },
-  formBox: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    marginTop: 30,
-  },
-  appName: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#FF7043',
-    letterSpacing: 1,
-    marginBottom: 2,
-  },
-  subTitle: {
-    fontSize: 14,
-    color: '#6D4C41',
-    textAlign: 'center',
-    marginBottom: 2,
-    marginTop: 2,
-    fontWeight: '500',
-  },
-  senhaInfo: {
-    fontSize: 12,
-    color: '#E53935',
-    marginTop: 2,
-    marginBottom: 6,
-    textAlign: 'center',
-    fontWeight: '500',
-  },
-  titulo: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginBottom: 28,
-    letterSpacing: 1,
-  },
-  input: {
-    width: '100%',
-    maxWidth: 340,
-    borderWidth: 2,
-    borderRadius: 12,
-    padding: 14,
-    fontSize: 17,
-    marginBottom: 14,
-    marginTop: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  btn: {
-    paddingVertical: 14,
-    paddingHorizontal: 36,
-    borderRadius: 12,
-    marginTop: 10,
-    marginBottom: 18,
-    minHeight: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.12,
-    shadowRadius: 6,
-    elevation: 3,
-  },
-  btnDisabled: {
-    opacity: 0.7,
-  },
-  btnTxt: {
-    fontWeight: 'bold',
-    fontSize: 19,
-    letterSpacing: 0.5,
-  },
-  link: {
-    textDecorationLine: 'underline',
-    fontSize: 16,
-    marginTop: 2,
-  },
-  erro: {
-    marginBottom: 8,
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-}); 
+} 
