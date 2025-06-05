@@ -1,12 +1,13 @@
 import React from 'react';
 import { Alert, Pressable, Text, View } from 'react-native';
+import { BACKEND_URL } from '../../constants/Api';
 import { Colors } from '../../constants/Colors';
 import { useAuth } from '../../hooks/useAuth';
 import { useColorScheme } from '../../hooks/useColorScheme';
 import { styles } from '../../styles/UsuarioStyles';
 
 // URL do backend para chamadas de API
-const BACKEND_URL = 'https://cozinhaexpress-backend-production.up.railway.app';
+// const BACKEND_URL = 'https://cozinhaexpress-backend-production.up.railway.app';
 
 // Componente principal para exibir opções do usuário
 export default function UsuarioScreen() {

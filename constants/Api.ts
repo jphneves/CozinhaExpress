@@ -1,0 +1,1 @@
+export const BACKEND_URL = 'https://cozinhaexpress-backend-production.up.railway.app'; 
