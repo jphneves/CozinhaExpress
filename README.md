@@ -57,7 +57,7 @@ O app CozinhaExpress está disponível para teste via Expo Go. Siga as instruç�
 
 # CozinhaExpress
 
-<img src="assets/images/icon.png" alt="CozinhaExpress Logo" width="200" />
+<img src="assets/images/icon.png" alt="CozinhaExpress Logo" width="300" />
 
 **CozinhaExpress** é um aplicativo de receitas desenvolvido com React Native e Expo, projetado para ajudar usuários a descobrir e explorar receitas de forma prática e intuitiva. O app permite buscar receitas por ingredientes, visualizar detalhes de preparo e gerenciar informações de usuário, como alteração de senha e exclusão de conta.
 
