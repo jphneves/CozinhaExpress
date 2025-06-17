@@ -1,123 +1,75 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Modal, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { BACKEND_URL } from '../../constants/Api';
 import { Colors } from '../../constants/Colors';
 import { useColorScheme } from '../../hooks/useColorScheme';
 import { styles } from '../../styles/IndexStyles';
 
 // Componente principal para exibir a lista de receitas
 export default function TelaReceitas() {
-  // Estados para gerenciar a lista de receitas, carregamento, modal de detalhes e busca
-  const [receitas, setReceitas] = useState<any[]>([]); // Armazena a lista de receitas obtidas da API
-  const [carregando, setCarregando] = useState(true); // Indica se os dados estão sendo carregados
-  const [modalVisible, setModalVisible] = useState(false); // Controla a visibilidade do modal de detalhes da receita
-  const [receitaSelecionada, setReceitaSelecionada] = useState<any | null>(null); // Armazena a receita selecionada para exibir no modal
-  const [busca, setBusca] = useState(''); // Armazena o texto de busca por ingrediente
-  const [buscando, setBuscando] = useState(false); // Indica se uma busca por ingrediente está ativa
-  const colorScheme = useColorScheme() ?? 'light'; // Obtém o esquema de cores (claro ou escuro) do dispositivo
-  const theme = Colors[colorScheme]; // Define o tema de cores com base no esquema
-
-  // Efeito para carregar receitas padrão ao iniciar o componente
-  /* useEffect(() => {
-    fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
-      .then(res => res.json())
-      .then(data => {
-        setReceitas(data.meals || []); // Atualiza o estado com a lista de receitas
-        setCarregando(false); // Finaliza o estado de carregamento
-      })
-      .catch(() => setCarregando(false)); // Em caso de erro, finaliza o carregamento
-  }, []); */
+  const [receitas, setReceitas] = useState<any[]>([]);
+  const [carregando, setCarregando] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [receitaSelecionada, setReceitaSelecionada] = useState<any | null>(null);
+  const [busca, setBusca] = useState('');
+  const [buscando, setBuscando] = useState(false);
+  const colorScheme = useColorScheme() ?? 'light';
+  const theme = Colors[colorScheme];
 
   // Função para abrir o modal com os detalhes de uma receita selecionada
   const abrirDetalhes = (receita: any) => {
-    setReceitaSelecionada(receita); // Define a receita selecionada
-    setModalVisible(true); // Mostra o modal
+    setReceitaSelecionada(receita);
+    setModalVisible(true);
   };
 
   // Função para fechar o modal de detalhes
   const fecharModal = () => {
-    setModalVisible(false); // Esconde o modal
-    setReceitaSelecionada(null); // Limpa a receita selecionada
+    setModalVisible(false);
+    setReceitaSelecionada(null);
   };
 
   // Função para buscar receitas por ingrediente
   const buscarPorIngrediente = () => {
-    if (!busca.trim()) return; // Se o campo de busca estiver vazio, não faz nada
-    setCarregando(true); // Inicia o estado de carregamento
-    setBuscando(true); // Marca que uma busca está ativa
+    if (!busca.trim()) return;
+    setCarregando(true);
+    setBuscando(true);
     fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${encodeURIComponent(busca)}`)
       .then(res => res.json())
       .then(data => {
         if (data.meals) {
-          // Buscar detalhes completos de cada receita encontrada, passando pelo backend para tradução
+          // Buscar detalhes completos de cada receita encontrada
           Promise.all(
             data.meals.map((meal: any) =>
-              fetch(`${BACKEND_URL}/api/recipe/${meal.idMeal}`)
-                .then(res => {
-                  if (!res.ok) {
-                    // Tenta ler o corpo da resposta como texto para ver o erro do servidor
-                    res.text().then(text => console.error(`Erro do servidor para ${meal.idMeal}:`, text));
-                    throw new Error(`HTTP error! status: ${res.status}`);
-                  }
-                  return res.json();
-                })
-                .catch((error) => {
-                  console.warn(`Falha ao buscar receita traduzida para ${meal.idMeal}. Usando original. Erro:`, error);
-                  return fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal.idMeal}`)
-                      .then(res => res.json())
-                      .then(d => d.meals[0]);
-                })
+              fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal.idMeal}`)
+                .then(res => res.json())
+                .then(d => d.meals[0])
             )
           ).then(receitasDetalhadas => {
-            setReceitas(receitasDetalhadas); // Atualiza a lista com as receitas detalhadas
-            setCarregando(false); // Finaliza o carregamento
+            setReceitas(receitasDetalhadas);
+            setCarregando(false);
           });
-        } else {
-          setReceitas([]); // Se não houver resultados, limpa a lista
-          setCarregando(false); // Finaliza o carregamento
-        }
-      })
-      .catch(() => setCarregando(false)); // Em caso de erro, finaliza o carregamento
-  };
-
-  // Função para buscar receitas padrão (todas) e traduzi-las
-  const buscarReceitasPadrao = () => {
-    setCarregando(true); // Inicia o estado de carregamento
-    fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
-      .then(res => res.json())
-      .then(data => {
-        if (data.meals) {
-          Promise.all(
-            data.meals.map((meal: any) =>
-              fetch(`${BACKEND_URL}/api/recipe/${meal.idMeal}`)
-                .then(res => {
-                  if (!res.ok) {
-                    // Tenta ler o corpo da resposta como texto para ver o erro do servidor
-                    res.text().then(text => console.error(`Erro do servidor para ${meal.idMeal}:`, text));
-                    throw new Error(`HTTP error! status: ${res.status}`);
-                  }
-                  return res.json();
-                })
-                .catch((error) => {
-                  console.warn(`Falha ao traduzir receita ${meal.idMeal}. Exibindo original. Erro:`, error);
-                  return meal; // O objeto 'meal' de 'search.php' já tem os detalhes.
-                })
-            )
-          ).then(receitasTraduzidas => {
-            setReceitas(receitasTraduzidas || []); // Atualiza a lista com as receitas padrão
-            setCarregando(false); // Finaliza o carregamento
-          })
         } else {
           setReceitas([]);
           setCarregando(false);
         }
       })
-      .catch(() => setCarregando(false)); // Em caso de erro, finaliza o carregamento
+      .catch(() => setCarregando(false));
+  };
+
+  // Função para buscar receitas padrão
+  const buscarReceitasPadrao = () => {
+    setCarregando(true);
+    fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
+      .then(res => res.json())
+      .then(data => {
+        setReceitas(data.meals || []);
+        setCarregando(false);
+      })
+      .catch(() => setCarregando(false));
   };
 
   // Efeito para carregar receitas padrão ao iniciar o componente
   useEffect(() => {
-    buscarReceitasPadrao(); // Chama a função para buscar receitas padrão
+    buscarReceitasPadrao();
   }, []);
 
   // Exibe uma tela de carregamento enquanto os dados estão sendo buscados
