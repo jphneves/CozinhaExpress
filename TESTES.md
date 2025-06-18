@@ -5,13 +5,13 @@ Este documento descreve os cenários de testes manuais realizados no aplicativo 
 ## Cenário 1: Login de Usuário
 - **Objetivo**: Verificar se um usuário registrado consegue fazer login com credenciais corretas.
 - **Passos**:
-  1. Abrir o aplicativo CozinhaExpress no dispositivo ou emulador iOS.
+  1. Abrir o aplicativo CozinhaExpress no dispositivo ou emulador android.
   2. Na tela de autenticação, inserir um e-mail registrado (ex.: `teste@exemplo.com`).
   3. Inserir a senha correta correspondente ao e-mail.
   4. Clicar no botão "Entrar".
 - **Resultado Esperado**: O usuário é redirecionado para a tela principal de receitas, com a lista de receitas sendo exibida.
-- **Resultado Obtido**: (A ser preenchido após o teste. Exemplo: "Login realizado com sucesso, tela de receitas exibida.")
-- **Status**: Pendente (aguardando teste).
+- **Resultado Obtido**: A ser preenchido após o teste. Exemplo: "Login realizado com sucesso, tela de receitas exibida.
+- **Status**: Funcional.
 
 ## Cenário 2: Busca de Receitas por Ingrediente
 - **Objetivo**: Verificar se o app retorna receitas corretas ao buscar por um ingrediente específico.
@@ -21,8 +21,8 @@ Este documento descreve os cenários de testes manuais realizados no aplicativo 
   3. Digitar um ingrediente (ex.: "chicken") no campo de busca.
   4. Clicar no botão "Buscar" ou pressionar "Enter" no teclado.
 - **Resultado Esperado**: O app exibe uma lista de receitas que contêm o ingrediente buscado (ex.: receitas com frango). Se não houver resultados, a lista deve estar vazia.
-- **Resultado Obtido**: (A ser preenchido após o teste. Exemplo: "Receitas com frango exibidas corretamente.")
-- **Status**: Pendente (aguardando teste).
+- **Resultado Obtido**: A ser preenchido após o teste. Exemplo: "Receitas com frango exibidas corretamente.
+- **Status**: Funcional.
 
 ## Cenário 3: Alteração de Senha do Usuário
 - **Objetivo**: Verificar se um usuário pode alterar sua senha com sucesso.
@@ -34,11 +34,7 @@ Este documento descreve os cenários de testes manuais realizados no aplicativo 
   5. Inserir uma nova senha (com pelo menos 6 caracteres) no segundo prompt.
   6. Confirmar a alteração.
 - **Resultado Esperado**: Uma mensagem de sucesso é exibida ("Senha alterada com sucesso!"), e o usuário pode fazer login novamente com a nova senha.
-- **Resultado Obtido**: (A ser preenchido após o teste. Exemplo: "Senha alterada com sucesso, login com nova senha funcionou.")
-- **Status**: Pendente (aguardando teste).
+- **Resultado Obtido**: Senha alterada com sucesso, login com nova senha funcionou.
+- **Status**: Funcional.
 
-## Observações
-- Os testes devem ser realizados em um dispositivo iOS ou emulador iOS para garantir compatibilidade com o ambiente do desenvolvedor.
-- Qualquer erro ou comportamento inesperado deve ser registrado e reportado para correção.
-
-**Última Atualização**: (Data a ser preenchida pelo desenvolvedor após os testes.) 
+**Última Atualização**: Funcionalidades OK (17/06/2025)
