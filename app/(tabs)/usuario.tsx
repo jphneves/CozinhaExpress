@@ -5,7 +5,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useColorScheme } from '../../hooks/useColorScheme';
 import { styles } from '../../styles/UsuarioStyles';
 
-const AUTH_URL = 'https://cozinhaexpress-auth.up.railway.app';
+const AUTH_URL = 'https://cozinhaexpress-backend-production.up.railway.app';
 
 // Componente principal para exibir opções do usuário
 export default function UsuarioScreen() {
@@ -33,20 +33,26 @@ export default function UsuarioScreen() {
       const response = await fetch(`${AUTH_URL}/api/user/change-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: user?.email, currentPassword, newPassword }),
+        body: JSON.stringify({ 
+          email: user?.email, 
+          currentPassword, 
+          newPassword 
+        }),
       });
-      const result = await response.json();
-      if (response.ok) {
-        Alert.alert('Sucesso', 'Senha alterada com sucesso!');
-        setChangePasswordVisible(false);
-        setCurrentPassword('');
-        setNewPassword('');
-      } else {
+
+      if (!response.ok) {
+        const result = await response.json();
         Alert.alert('Erro', result.error || 'Não foi possível alterar a senha.');
+        return;
       }
+
+      Alert.alert('Sucesso', 'Senha alterada com sucesso!');
+      setChangePasswordVisible(false);
+      setCurrentPassword('');
+      setNewPassword('');
     } catch (error) {
-      Alert.alert('Erro', 'Ocorreu um erro ao tentar alterar a senha.');
       console.error(error);
+      Alert.alert('Erro', 'Ocorreu um erro ao tentar alterar a senha.');
     }
   };
 
@@ -60,21 +66,28 @@ export default function UsuarioScreen() {
       const response = await fetch(`${AUTH_URL}/api/user/delete-account`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: user?.email, password: deletePassword }),
+        body: JSON.stringify({ 
+          email: user?.email, 
+          password: deletePassword 
+        }),
       });
-      const result = await response.json();
-      if (response.ok) {
-        Alert.alert('Sucesso', 'Conta excluída com sucesso. Você será deslogado.', [
-          { text: 'OK', onPress: logout }
-        ]);
-        setDeleteAccountVisible(false);
-        setDeletePassword('');
-      } else {
+
+      if (!response.ok) {
+        const result = await response.json();
         Alert.alert('Erro', result.error || 'Não foi possível excluir a conta.');
+        return;
       }
+
+      Alert.alert(
+        'Sucesso',
+        'Conta excluída com sucesso. Você será deslogado.',
+        [{ text: 'OK', onPress: logout }]
+      );
+      setDeleteAccountVisible(false);
+      setDeletePassword('');
     } catch (error) {
-      Alert.alert('Erro', 'Ocorreu um erro ao tentar excluir a conta.');
       console.error(error);
+      Alert.alert('Erro', 'Ocorreu um erro ao tentar excluir a conta.');
     }
   };
 
@@ -101,7 +114,11 @@ export default function UsuarioScreen() {
         visible={isChangePasswordVisible}
         transparent={true}
         animationType="slide"
-        onRequestClose={() => setChangePasswordVisible(false)}>
+        onRequestClose={() => {
+          setChangePasswordVisible(false);
+          setCurrentPassword('');
+          setNewPassword('');
+        }}>
         <View style={styles.modalContainer}>
           <View style={[styles.modalContent, { backgroundColor: theme.background }]}>
             <Text style={[styles.modalTitle, { color: theme.text }]}>Alterar Senha</Text>
@@ -145,7 +162,10 @@ export default function UsuarioScreen() {
         visible={isDeleteAccountVisible}
         transparent={true}
         animationType="slide"
-        onRequestClose={() => setDeleteAccountVisible(false)}>
+        onRequestClose={() => {
+          setDeleteAccountVisible(false);
+          setDeletePassword('');
+        }}>
         <View style={styles.modalContainer}>
           <View style={[styles.modalContent, { backgroundColor: theme.background }]}>
             <Text style={[styles.modalTitle, { color: theme.text }]}>Excluir Conta</Text>
