@@ -14,35 +14,6 @@ const schema = z.object({
   // nome: z.string().optional(), // REMOVER
 });
 
-// URL do seu backend - SUBSTITUA PELO SEU IP LOCAL ou 10.0.2.2 para emulador Android
-const BACKEND_URL = 'https://cozinhaexpress-backend-production.up.railway.app'; 
-
-async function cadastrarUsuarioApi(email: string, senha: string) {
-  const resposta = await fetch(`${BACKEND_URL}/usuarios`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, senha }),
-  });
-  const resultado = await resposta.json();
-  if (!resposta.ok) { // Verifica se a resposta da API foi bem sucedida
-    throw new Error(resultado.error || 'Erro ao cadastrar usuário');
-  }
-  return resultado.usuario;
-}
-
-async function loginUsuarioApi(email: string, senha: string) {
-  const resposta = await fetch(`${BACKEND_URL}/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, senha }),
-  });
-  const resultado = await resposta.json();
-  if (!resposta.ok) { // Verifica se a resposta da API foi bem sucedida
-    throw new Error(resultado.error || 'Erro ao fazer login');
-  }
-  return resultado.usuario; // ou resultado.token se você retornar um token
-}
-
 export default function AuthScreen() {
   const { login, register, isLoading: isLoadingAuth } = useAuth();
   const [email, setEmail] = useState('');
